@@ -13,11 +13,46 @@ URL          : /board?category={category}
 */
 router.get("/", async (req, res, next) => {
   try {
-    const selectBoardQuery = "SELECT * FROM Board WHERE category = ?";
-    const selectBoardResult = await db.queryParam_Parse(
-      selectBoardQuery,
-      req.query.category
-    );
+    if (!req.query.category) {
+      return res
+        .status(200)
+        .send(
+          defaultRes.successFalse(statusCode.BAD_REQUEST, resMessage.NULL_VALUE)
+        );
+    }
+    let selectBoardQuery;
+    let selectBoardResult;
+
+    if (req.query.category == "inner") {
+      if (!req.query.u_idx) {
+        return res
+          .status(200)
+          .send(
+            defaultRes.successFalse(
+              statusCode.BAD_REQUEST,
+              resMessage.NULL_VALUE
+            )
+          );
+      }
+      const selectUserQuery = "SELECT univ FROM User WHERE u_idx = ?";
+      const selectUserResult = await db.queryParam_Parse(
+        selectUserQuery,
+        req.query.u_idx
+      );
+
+      selectBoardQuery =
+        "SELECT b_idx, category, title, content, date, writer, like_count, scrap_count FROM Board RIGHT JOIN User ON Board.writer = User.u_idx WHERE category = 'inner' and univ = ?";
+      selectBoardResult = await db.queryParam_Parse(
+        selectBoardQuery,
+        selectUserResult[0].univ
+      );
+    } else {
+      selectBoardQuery = "SELECT * FROM Board WHERE category = ?";
+      selectBoardResult = await db.queryParam_Parse(
+        selectBoardQuery,
+        req.query.category
+      );
+    }
 
     if (!selectBoardResult[0]) {
       return res
