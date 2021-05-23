@@ -25,6 +25,9 @@ module.exports = {
   NOT_EXIST_POST: "존재하지 않는 게시글입니다.",
   FAIL_SELECT_POST: "게시글 조회 실패",
 
+  SUCCESS_WRITE_COMMENT: "댓글 작성 성공",
+  FAIL_WRITE_COMMENT: "댓글 작성 실패",
+
   SUCCESS_REGISTER_WORD: "단어 등록 성공",
   FAIL_REGISTER_WORD: "단어 등록 실패",
   FAIL_UPDATE_CATEGORY_COUNT: "카테고리 단어개수 업데이트 실패",

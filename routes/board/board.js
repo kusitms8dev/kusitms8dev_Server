@@ -166,7 +166,7 @@ router.post("/", async (req, res) => {
       .status(200)
       .send(
         defaultRes.successTrue(
-          statusCode.OK,
+          statusCode.CREATED,
           resMessage.SUCCESS_WRITE_POST,
           result
         )
