@@ -41,7 +41,7 @@ router.get("/", async (req, res, next) => {
       );
 
       selectBoardQuery =
-        "SELECT b_idx, category, title, content, date, writer, like_count, scrap_count FROM Board RIGHT JOIN User ON Board.writer = User.u_idx WHERE category = 'inner' and univ = ?";
+        "SELECT b_idx, category, title, content, date, writer, liked_count, scrap_count FROM Board RIGHT JOIN User ON Board.writer = User.u_idx WHERE category = 'inner' and univ = ?";
       selectBoardResult = await db.queryParam_Parse(
         selectBoardQuery,
         selectUserResult[0].univ
@@ -110,7 +110,7 @@ router.get("/:b_idx", async (req, res, next) => {
       content: selectInnerBoardDetailResult[0].content,
       date: selectInnerBoardDetailResult[0].date,
       writer: selectInnerBoardDetailResult[0].writer,
-      like_count: selectInnerBoardDetailResult[0].like_count,
+      liked_count: selectInnerBoardDetailResult[0].liked_count,
       scrap_count: selectInnerBoardDetailResult[0].scrap_count,
       Comment: selectCommentResult,
     };

@@ -7,9 +7,9 @@ const resMessage = require("../../module/utils/responseMessage");
 const db = require("../../module/pool");
 
 /*
-스크랩 조회
+공감한 글 조회
 METHOD       : GET
-URL          : /scrap?user={u_idx}
+URL          : /like?user={u_idx}
 */
 router.get("/", async (req, res, next) => {
   if (!req.query.user) {
@@ -21,26 +21,26 @@ router.get("/", async (req, res, next) => {
   }
 
   try {
-    const selectScrapBoardQuery =
-      "SELECT b_idx FROM Scrap WHERE u_idx = ? and b_idx is not null";
-    const selectScrapReportQuery =
-      "SELECT r_idx FROM Scrap WHERE u_idx = ? and r_idx is not null";
+    const selectLikedBoardQuery =
+      "SELECT b_idx FROM Liked WHERE u_idx = ? and b_idx is not null";
+    const selectLikedReportQuery =
+      "SELECT r_idx FROM Liked WHERE u_idx = ? and r_idx is not null";
 
-    const selectScrapBoardResult = await db.queryParam_Parse(
-      selectScrapBoardQuery,
+    const selectLikedBoardResult = await db.queryParam_Parse(
+      selectLikedBoardQuery,
       req.query.user
     );
 
-    const selectScrapReportResult = await db.queryParam_Parse(
-      selectScrapReportQuery,
+    const selectLikedReportResult = await db.queryParam_Parse(
+      selectLikedReportQuery,
       req.query.user
     );
 
-    if (!selectScrapBoardResult[0] && !selectScrapReportResult[0]) {
+    if (!selectLikedBoardResult[0] && !selectLikedReportResult[0]) {
       return res
         .status(200)
         .send(
-          defaultRes.successTrue(statusCode.OK, resMessage.NOT_EXIST_SCRAP, [])
+          defaultRes.successTrue(statusCode.OK, resMessage.NOT_EXIST_LIKED, [])
         );
     }
     var data = {
@@ -48,15 +48,15 @@ router.get("/", async (req, res, next) => {
       report: [],
     };
 
-    if (selectScrapBoardResult.length > 0) {
-      for (var i = 0; i < selectScrapBoardResult.length; i++) {
+    if (selectLikedBoardResult.length > 0) {
+      for (var i = 0; i < selectLikedBoardResult.length; i++) {
         const selectBoardQuery = "SELECT * FROM Board WHERE b_idx = ?";
         const selectBoardResult = await db.queryParam_Parse(
           selectBoardQuery,
-          selectScrapBoardResult[i].b_idx
+          selectLikedBoardResult[i].b_idx
         );
 
-        var scrapBoard = {
+        var likedBoard = {
           b_idx: 0,
           category: "",
           title: "",
@@ -67,40 +67,40 @@ router.get("/", async (req, res, next) => {
           scrap_count: 0,
         };
 
-        scrapBoard.b_idx = selectBoardResult[0].b_idx;
-        scrapBoard.category = selectBoardResult[0].category;
-        scrapBoard.title = selectBoardResult[0].title;
-        scrapBoard.content = selectBoardResult[0].content;
-        scrapBoard.date = selectBoardResult[0].date;
-        scrapBoard.writer = selectBoardResult[0].writer;
-        scrapBoard.liked_count = selectBoardResult[0].liked_count;
-        scrapBoard.scrap_count = selectBoardResult[0].scrap_count;
+        likedBoard.b_idx = selectBoardResult[0].b_idx;
+        likedBoard.category = selectBoardResult[0].category;
+        likedBoard.title = selectBoardResult[0].title;
+        likedBoard.content = selectBoardResult[0].content;
+        likedBoard.date = selectBoardResult[0].date;
+        likedBoard.writer = selectBoardResult[0].writer;
+        likedBoard.liked_count = selectBoardResult[0].liked_count;
+        likedBoard.scrap_count = selectBoardResult[0].scrap_count;
 
-        data.board.push(scrapBoard);
+        data.board.push(likedBoard);
       }
     }
 
-    if (selectScrapReportResult.length > 0) {
+    if (selectLikedReportResult.length > 0) {
       for (var i = 0; i < selectScrapReportResult.length; i++) {
         const selectReportQuery = "SELECT * FROM Report WHERE r_idx = ?";
         const selectReportResult = await db.queryParam_Parse(
           selectReportQuery,
-          selectScrapReportResult[i].r_idx
+          selectLikedReportResult[i].r_idx
         );
 
-        var scrapReport = {
+        var likedReport = {
           r_idx: 0,
           //추가하기
           liked_count: 0,
           scrap_count: 0,
         };
 
-        scrapReport.r_idx = selectReportResult[0].r_idx;
+        likedReport.r_idx = selectReportResult[0].r_idx;
         //추가하기
-        scrapReport.liked_count = selectReportResult[0].liked_count;
-        scrapReport.scrap_count = selectReportResult[0].scrap_count;
+        likedReport.liked_count = selectReportResult[0].liked_count;
+        likedReport.scrap_count = selectReportResult[0].scrap_count;
 
-        data.report.push(scrapReport);
+        data.report.push(likedReport);
       }
     }
 
@@ -109,7 +109,7 @@ router.get("/", async (req, res, next) => {
       .send(
         defaultRes.successTrue(
           statusCode.OK,
-          resMessage.SUCCESS_SELECT_SCRAP,
+          resMessage.SUCCESS_SELECT_LIKED,
           data
         )
       );
@@ -120,7 +120,7 @@ router.get("/", async (req, res, next) => {
       .send(
         defaultRes.successFalse(
           statusCode.INTERNAL_SERVER_ERROR,
-          resMessage.FAIL_SELECT_SCRAP
+          resMessage.FAIL_SELECT_LIKED
         )
       );
   }

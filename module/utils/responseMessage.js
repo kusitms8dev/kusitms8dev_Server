@@ -37,6 +37,7 @@ module.exports = {
 
   SUCCESS_SCRAP_REPORT: "보고서 스크랩 성공",
   FAIL_SCRAP_REPORT: "보고서 스크랩 실패",
+  FAIL_CHANGE_REPORT_SCRAP_STATE: "보고서 스크랩 상태 변경 실패",
 
   SUCCESS_DELETE_SCRAP_REPORT: "보고서 스크랩 취소 성공",
   FAIL_DELETE_SCRAP_REPORT: "보고서 스크랩 취소 실패",
@@ -46,6 +47,24 @@ module.exports = {
   NOT_EXIST_SCRAP: "스크랩한 항목이 존재하지 않습니다.",
 
   FAIL_SELECT_SCRAP_TF: "스크랩 여부 조회 실패",
+
+  SUCCESS_LIKE_POST: "게시글 좋아요 성공",
+  FAIL_LIKE_POST: "게시글 좋아요 실패",
+  FAIL_CHANGE_POST_LIKE_STATE: "게시글 좋아요 상태 변경 실패",
+
+  SUCCESS_DELETE_LIKE_POST: "게시글 좋아요 취소 성공",
+  FAIL_DELETE_LIKE_POST: "게시글 좋아요 취소 실패",
+
+  SUCCESS_LIKE_COMMENT: "댓글 좋아요 성공",
+  FAIL_LIKE_COMMENT: "댓글 좋아요 실패",
+  FAIL_CHANGE_COMMENT_LIKE_STATE: "댓글 좋아요 상태 변경 실패",
+
+  SUCCESS_DELETE_LIKE_COMMENT: "댓글 좋아요 취소 성공",
+  FAIL_DELETE_LIKE_COMMENT: "댓글 좋아요 취소 실패",
+
+  SUCCESS_SELECT_LIKED: "공감한 글 조회 성공",
+  FAIL_SELECT_LIKED: "공감한 글 조회 실패",
+  NOT_EXIST_LIKED: "공감한 글이 존재하지 않습니다.",
 
   NO_TOKEN_VALUE: "토큰 값이 없습니다",
   EXPIRED_TOKEN: "유효하지 않은 토큰입니다",

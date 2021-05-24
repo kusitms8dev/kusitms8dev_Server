@@ -15,7 +15,7 @@ BODY         : u_idx = 사용자 고유 id
                date = 현재 시간
 */
 router.post("/", async (req, res) => {
-  if (!req.body.u_idx || !req.body.b_idx) {
+  if (!req.body.u_idx || !req.body.b_idx || !req.body.date) {
     return res
       .status(200)
       .send(defaultRes.successFalse(statusCode.OK, resMessage.NULL_VALUE));
