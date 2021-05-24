@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-//댓글 작성/
-router.use("/", require("./comment"));
+//스크랩
+router.use("/", require("./scrap"));
 
 module.exports = router;

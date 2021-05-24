@@ -9,7 +9,7 @@ const db = require("../../module/pool");
 /*
 게시판 조회
 METHOD       : GET
-URL          : /board?category={category}
+URL          : /board?user={u_idx}&category={category}
 */
 router.get("/", async (req, res, next) => {
   try {
@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
     let selectBoardResult;
 
     if (req.query.category == "inner") {
-      if (!req.query.u_idx) {
+      if (!req.query.user) {
         return res
           .status(200)
           .send(
@@ -37,7 +37,7 @@ router.get("/", async (req, res, next) => {
       const selectUserQuery = "SELECT univ FROM User WHERE u_idx = ?";
       const selectUserResult = await db.queryParam_Parse(
         selectUserQuery,
-        req.query.u_idx
+        req.query.user
       );
 
       selectBoardQuery =
